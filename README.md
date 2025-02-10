@@ -30,3 +30,6 @@ A simple web-based Expense Tracker that allows users to add, edit, delete, and t
 
 ## Local Storage
 The application saves all expense data in the browser's local storage, so expenses persist even after page reloads.
+
+## Live Preview
+[Click here to view the live project](https://kishensjain.github.io/expense-tracker/)
