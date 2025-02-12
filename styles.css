@@ -86,3 +86,14 @@ h2 {
   font-size: 20px;
   color: #333;
 }
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#expense-chart {
+  max-width: 300px; /* Adjust width */
+  max-height: 300px; /* Adjust height */
+}

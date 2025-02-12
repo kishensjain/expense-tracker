@@ -4,11 +4,15 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const expenseAmount = document.getElementById("expense-amount");
   const expenseList = document.getElementById("expense-list");
   const totalExpense = document.getElementById("total-amount");
+  const expenseChartCanvas = document.getElementById("expense-chart")
 
   let expenses= JSON.parse(localStorage.getItem('expenses')) || []
   let totalAmount = calculateTotal();
+  let expenseChart;
 
   renderExpenses();
+  updateTotal();
+  updateChart();
 
   expenseForm.addEventListener("submit", e=>{
     e.preventDefault();
@@ -25,6 +29,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
       saveExpensesToLocal();
       renderExpenses();
       updateTotal();
+      updateChart();
 
       expenseName.value=""
       expenseAmount.value=""
@@ -69,6 +74,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     saveExpensesToLocal();
     renderExpenses();
     updateTotal();
+    updateChart();
   }
 
   function editExpense(e) {
@@ -83,6 +89,45 @@ document.addEventListener("DOMContentLoaded", ()=>{
       saveExpensesToLocal();
       renderExpenses();
       updateTotal();
+      updateChart();
     }
   }
-})
+
+function updateChart(){
+  const expenseMap = {};
+  expenses.forEach((expense)=>{
+    if(expenseMap[expense.name]){
+      expenseMap[expense.name] += expense.amount
+    }else {
+      expenseMap[expense.name] = expense.amount;
+    }
+  })
+    const labels = Object.keys(expenseMap);
+    const data = Object.values(expenseMap);
+
+    if(expenseChart){
+    expenseChart.destroy();
+    }
+
+    expenseChart = new Chart(expenseChartCanvas,{
+      type: "pie",
+      data :{
+        labels: labels,
+        datasets:[
+          {
+            data:data,
+            backgroundColor: ["#FF6384","#36A2EB","#FFCE56","#4BC0C0","#9966FF","#FF9F40",]
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend:{
+            position: "top",
+          },
+        },
+      },
+    });
+  }
+});
